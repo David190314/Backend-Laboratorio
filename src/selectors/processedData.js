@@ -1,6 +1,10 @@
-export const integrationObject = (str, arrayPatient) => {
+import { operationDataBase } from "../controllers/patient.lab.controllers.js"
+import { Patient } from "../services/patient.lab.services.js"
 
-
+const nuAutoLadexLadr = await Patient.getLabAutoLadex()
+let counter = 1
+export const integrationObject = async (str, arrayPatient) => {
+  const reg = /[^\w\.@-]/g
   const [ IDMUESTR, NOMBRE, APELLIDO, MODO, FECHA, HORA, ESTDEMUESTRA, WBCL, NEUL,
     LYML, MONL, EOSL, BASL, NEU, MON, LYM, EOS, BAS, RBCL, HGBGDL, HCT, MCVFL, MCHPG, MCHCGDL,
     RDWCV, RDWSD, PLTL, MPVFL , PDW, PCTMLL, ALYL, ALY, LICL, LIC, BLASTL, BLAST, NRBCL,NRBC,
@@ -8,6 +12,7 @@ export const integrationObject = (str, arrayPatient) => {
     NCAMA, FECHADETRAZADO, HORADETRAZADO, FECHAENTREGA, HORENTR, MEDICOCLINICO, OPERADOR, VALIDADOPOR,
     COMENTARIOS, MENSAJEWBC, MENSAJERBC, MENSAJEPLT, GRUPOSANGUINEO, ESR, PARMMICROSCOPICOS
   ] = str
+
   class Person {
     constructor({
       IDmuest, NOMBRE, APELLIDO, MODO, FECHA, HORA, ESTDEMUESTRA, WBCL, NEUL,
@@ -15,38 +20,38 @@ export const integrationObject = (str, arrayPatient) => {
       RDWCV, RDWSD, PLTL, MPVFL , PDW, PCTMLL, ALYL, ALY, LICL, LIC, BLASTL, BLAST, NRBCL,NRBC,
       PLTCLUMPL, PLTCLUMP, LIPL, LIP, NLR, PLR, IDPAC,SEXO,TIPOPAC,GRUPODEREF,FECHANAC, EDAD, DPTO,
       NCAMA, FECHADETRAZADO, HORADETRAZADO, FECHAENTREGA, HORENTR, MEDICOCLINICO, OPERADOR, VALIDADOPOR,
-      COMENTARIOS, MENSAJEWBC, MENSAJERBC, MENSAJEPLT, GRUPOSANGUINEO, ESR, PARMMICROSCOPICOS
+      COMENTARIOS, MENSAJEWBC, MENSAJERBC, MENSAJEPLT, GRUPOSANGUINEO, ESR, PARMMICROSCOPICOS, OBJ
     }){
       this.IDmuest = IDmuest
       this.NOMBRE = NOMBRE
       this.APELLIDO = APELLIDO
       this.MODO = MODO
-      this.FECHA = FECHA
+      this.FECHA = FECHA.replace(reg, '-')
       this.HORA = HORA
       this.ESTDEMUESTRA = ESTDEMUESTRA
-      this.WBCL = WBCL
-      this.NEUL = NEUL
-      this.LYML = LYML
-      this.MONL = MONL
-      this.EOSL = EOSL
-      this.BASL = BASL
-      this.NEU = NEU
-      this.MON = MON
-      this.LYM = LYM
+      //this.WBCL = WBCL
+      //this.NEUL = NEUL
+      //this.LYML = LYML
+      //this.MONL = MONL
+      //this.EOSL = EOSL
+      //this.BASL = BASL
+      //this.NEU = NEU
+      //this.LYM = LYM
+      //this.MON = MON
       this.EOS = EOS
-      this.BAS = BAS
-      this.RBCL = RBCL
-      this.HGBGDL = HGBGDL
-      this.HCT = HCT
-      this.MCVFL = MCVFL
-      this.MCHPG = MCHPG
-      this.MCHCGDL = MCHCGDL
-      this.RDWCV = RDWCV
-      this.RDWSD = RDWSD
+      //this.BAS = BAS
+      //this.RBCL = RBCL
+      //this.HGBGDL = HGBGDL
+      //this.HCT = HCT
+      //this.MCVFL = MCVFL
+      //this.MCHPG = MCHPG
+      //this.MCHCGDL = MCHCGDL
+      //this.RDWCV = RDWCV
+      //this.RDWSD = RDWSD
       this.PLTL = PLTL
       this.MPVFL = MPVFL
       this.PDW = PDW
-      this.PCTMLL = PCTMLL
+      //this.PCTMLL = PCTMLL
       this.ALYL = ALYL
       this.ALY = ALY
       this.LICL = LICL
@@ -78,10 +83,32 @@ export const integrationObject = (str, arrayPatient) => {
       this.VALIDADOPOR = VALIDADOPOR
       this.COMENTARIOS = COMENTARIOS
       this.MENSAJEWBC = MENSAJEWBC
+      this.MENSAJERBC = MENSAJERBC
       this.MENSAJEPLT = MENSAJEPLT
       this.GRUPOSANGUINEO = GRUPOSANGUINEO
       this.ESR = ESR
       this.PARMMICROSCOPICOS = PARMMICROSCOPICOS
+      this.OBJ = [
+        WBCL,
+        NEUL,
+        LYML,
+        MONL,
+        EOSL,
+        BASL,
+        NEU,
+        LYM,
+        MON,
+        BAS,
+        RBCL,
+        HGBGDL,
+        HCT,
+        MCVFL,
+        MCHPG,
+        MCHCGDL,
+        RDWCV,
+        RDWSD,
+        PCTMLL
+      ]
     }
   }
   const resultShows = arrayPatient.map((ele, i)=> {
@@ -93,29 +120,29 @@ export const integrationObject = (str, arrayPatient) => {
       FECHA: ele[4],
       HORA: ele[5],
       ESTDEMUESTRA: ele[6],
-      WBCL: ele[7],
-      NEUL: ele[8],
-      LYML: ele[9],
-      MONL: ele[10],
-      EOSL: ele[11],
-      BASL: ele[12],
-      NEU: ele[13],
-      MON: ele[14],
-      LYM: ele[15],
+      WBCL: {'HOMO': ele[7], 'COD': 199},
+      NEUL: {'HOMO': ele[8], 'COD': 200},
+      LYML: {'HOMO': ele[9], 'COD': 201},
+      MONL: {'HOMO': ele[10], 'COD': 202},
+      EOSL: {'HOMO': ele[11], 'COD': 203},
+      BASL: {'HOMO': ele[12], 'COD': 204},
+      NEU: {'HOMO': ele[13], 'COD': 205},
+      LYM: {'HOMO': ele[14], 'COD': 206},
+      MON: {'HOMO': ele[15], 'COD': 207},
       EOS: ele[16],
-      BAS: ele[17],
-      RBCL: ele[18],
-      HGBGDL: ele[19],
-      HCT: ele[20],
-      MCVFL: ele[21],
-      MCHPG: ele[22],
-      MCHCGDL: ele[23],
-      RDWCV: ele[24],
-      RDWSD: ele[25],
+      BAS: {'HOMO': ele[17], 'COD': 208},
+      RBCL: {'HOMO': ele[18], 'COD': 209},
+      HGBGDL: {'HOMO': ele[19], 'COD': 210},
+      HCT: {'HOMO': ele[20], 'COD': 211},
+      MCVFL: {'HOMO': ele[21], 'COD': 212},
+      MCHPG: {'HOMO': ele[22], 'COD': 213},
+      MCHCGDL: {'HOMO': ele[23], 'COD': 214},
+      RDWCV: {'HOMO': ele[24], 'COD': 216},
+      RDWSD: {'HOMO': ele[25], 'COD': 217},
       PLTL: ele[26],
       MPVFL: ele[27],
       PDW: ele[28],
-      PCTMLL: ele[29],
+      PCTMLL: {'HOMO': ele[29], 'COD': 215},
       ALYL: ele[30],
       ALY: ele[31],
       LICL: ele[32],
@@ -147,11 +174,28 @@ export const integrationObject = (str, arrayPatient) => {
       VALIDADOPOR: ele[58],
       COMENTARIOS: ele[59],
       MENSAJEWBC: ele[60],
-      MENSAJEPLT: ele[61],
-      GRUPOSANGUINEO: ele[62],
-      ESR: ele[63],
-      PARMMICROSCOPICOS: ele[64],
+      MENSAJERBC: ele[61],
+      MENSAJEPLT: ele[62],
+      GRUPOSANGUINEO: ele[63],
+      ESR: ele[64],
+      PARMMICROSCOPICOS: ele[65],
+      OBJ: {}
     })
     return person
   })
+  resultShows.filter(async element => {
+    const searchUserdId = await Patient.getPatientById(element.IDmuest)
+    const nuLabFact = await Patient.getLaboFact(element.IDmuest)
+    if(searchUserdId != undefined){
+      if(searchUserdId[0].NU_DOCU_PAC === element.IDmuest){
+        const newResultShows = {...element,
+        'NU_AUTO_LADEX': nuAutoLadexLadr+counter,
+        'NU_NUME_LABO_FACT': nuLabFact.LaboFact
+        }
+        operationDataBase(newResultShows)
+      }
+      counter++
+    }
+  })
+
 }

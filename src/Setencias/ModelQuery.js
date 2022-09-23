@@ -1,45 +1,27 @@
-import dotenv from 'dotenv'
 import sql from 'mssql'
-// import pkg from 'mssql';
-// const { sql } = pkg;
-dotenv.config()
 
-const sqlConfig = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
-    server: process.env.DB_SERVER,
-    port: parseInt(process.env.PORTDB, 10),
-    pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    },
-    options:{
-        encrypt: true,
-        trustServerCertificate: true,
+
+//Creamos una clase que nos permita instanciar una conexión con el motor de bases de datos de SQL Server
+export class Sql {
+    constructor(stringConnection){
+        this.stringConnection = stringConnection
     }
-}
 
-export const modelQuery = function(query){
-    const connection  = new sql.ConnectionPool(sqlConfig)
-    connection.connect(function(error){
-        if(error){
-            console.log("Error while connecting database :- " + error)
-        }else{
-            const request = new sql.Request(connection)
-            request.query(`select * from dbo.USUA_DESP_NOMINA AS US WHERE US.DOCUMENTO = '${1074159950}'`, function(error, datos){
-                if(error){
-                    console.log("Error while query database :- " + error)
-                }else{
-                    console.log(datos.recordset)
-                    connection.close(()=>{
-                        console.log('disconnect database')
-                    })
-                }
-            })
+    //Metodo que retorna el pool de conexión
+    connectiontPoolDatabase(){
+        const connection = new sql.ConnectionPool(this.stringConnection)
+        return connection
+    }
+
+    //Crea la conexión con la base de datos, recuperamos la conexión y enviamos la consulta sql enviada desde los servicios
+    async connectionDatabase(pool, query){
+        try {
+            const resultConnection = await pool.connect()
+            let data = await new sql.Request(resultConnection).query(`${query}`)
+            return data
+        } catch (error) {
+            return `Actualmente el servidor de Base de datos no esta disponible` + error
         }
-    })
+    }
+
 }
-
-
