@@ -27,9 +27,11 @@ app.get("/login",(req, res) =>{
     res.render('pages/login')
 })
 
-readDate()
+
+let counter = 1
+readDate(counter)
 setInterval(()=>{
-    console.log('HOLA')
+    readDate(counter)
 }, 10000)
 
 export { app }

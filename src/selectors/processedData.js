@@ -1,10 +1,8 @@
 import { operationDataBase } from "../controllers/patient.lab.controllers.js"
 import { Patient } from "../services/patient.lab.services.js"
 
-const nuAutoLadexLadr = await Patient.getLabAutoLadex()
-let counter = 1
-export const integrationObject = async (str, arrayPatient) => {
-  const reg = /[^\w\.@-]/g
+
+export const integrationObject = async (str, arrayPatient, counter) => {
   const [ IDMUESTR, NOMBRE, APELLIDO, MODO, FECHA, HORA, ESTDEMUESTRA, WBCL, NEUL,
     LYML, MONL, EOSL, BASL, NEU, MON, LYM, EOS, BAS, RBCL, HGBGDL, HCT, MCVFL, MCHPG, MCHCGDL,
     RDWCV, RDWSD, PLTL, MPVFL , PDW, PCTMLL, ALYL, ALY, LICL, LIC, BLASTL, BLAST, NRBCL,NRBC,
@@ -26,7 +24,7 @@ export const integrationObject = async (str, arrayPatient) => {
       this.NOMBRE = NOMBRE
       this.APELLIDO = APELLIDO
       this.MODO = MODO
-      this.FECHA = FECHA.replace(reg, '-')
+      this.FECHA = FECHA
       this.HORA = HORA
       this.ESTDEMUESTRA = ESTDEMUESTRA
       //this.WBCL = WBCL
@@ -184,13 +182,15 @@ export const integrationObject = async (str, arrayPatient) => {
     return person
   })
   resultShows.filter(async element => {
+    const nuAutoLadexLadr = await Patient.getLabAutoLadex()
+    //console.log(nuAutoLadexLadr)
     const searchUserdId = await Patient.getPatientById(element.IDmuest)
     const nuLabFact = await Patient.getLaboFact(element.IDmuest)
     if(searchUserdId != undefined){
       if(searchUserdId[0].NU_DOCU_PAC === element.IDmuest){
         const newResultShows = {...element,
-        'NU_AUTO_LADEX': nuAutoLadexLadr+counter,
-        'NU_NUME_LABO_FACT': nuLabFact.LaboFact
+          'NU_AUTO_LADEX': nuAutoLadexLadr+counter,
+          'NU_NUME_LABO_FACT': nuLabFact.LaboFact
         }
         operationDataBase(newResultShows)
       }

@@ -6,7 +6,7 @@ import path from 'path'
 import { dataJson } from '../selectors/dataJson.js'
 
 //Funcion que lee el archivo y crea log con la descripcción de la dia fecha y hora de la lectura del documento .cvs
-const readDate = async () => {
+const readDate = async (counter) => {
   //Varible de lectura de fecha y hora del sistema operativo de forma asincrona
   const executionTime = await new Date()
 
@@ -15,16 +15,18 @@ const readDate = async () => {
 
   //Variable que retorna los archivos que se encuentran dentro del directorio
   const pathData = fs.readdirSync('../../../../../../temp/data', 'utf-8')
+  
+  const csv =  pathData.filter(element => {
+    return element.endsWith('.csv') && element
+  })
 
   try {
     //Lectura del primer archivo que se encuentra en el directorio
-    const file = fs.readFileSync(`../../../../../../temp/Data/${pathData[0]}`, 'utf-8')
-
+    const file = fs.readFileSync(`../../../../../../temp/Data/${csv[0]}`, 'utf-8')
     //Separar por coma cada una de las posiciones leidas
     let dataFile = file.split(',')
-
     //Enviar los datos a la función que procesara los datos para convertirlos en formato Json
-    dataJson(dataFile.slice(1, dataFile.length))
+    dataJson(dataFile.slice(1, dataFile.length), counter)
 
     // Escriber en archivo generado en la linea 14 si se pudo leer el archivo
     fs.appendFileSync(

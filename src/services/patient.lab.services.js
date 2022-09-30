@@ -31,6 +31,7 @@ export class Patient {
     static async insertLaboExamen( query ){
         try {
             await sql.connectionDatabase( pool, query )
+
         } catch (error) {
             throw 'Error in request services'
         }
