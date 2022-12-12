@@ -1,6 +1,6 @@
 import { integrationObject } from './processedData.js'
 
-export const readRows = (data, counter) => {
+export const readRows = (data, counter, executionTime) => {
   //Constante que define la longitud de la cabezara del csv
   const maxLentgUser = 66
   let arrayPatient = []
@@ -22,7 +22,7 @@ export const readRows = (data, counter) => {
     }
 
     //Enviamos el array que contiene los array de cada una de las muestras tomadas, y las cabezeras del csv
-    integrationObject(header, arrayPatient, counter)
+    integrationObject(header, arrayPatient, counter, executionTime)
   } catch (error) {
     return `this array present error ${error.message}`
   }

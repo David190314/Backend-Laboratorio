@@ -1,12 +1,16 @@
 import express from 'express'
 import path from 'path'
 import { readDate } from './services/readData.js'
+import { Routes } from './routes/viewsRoutes.js'
+
+
 
 //Guardando en la ruta relativa de la estrutura del proyecto
 const __dirname = path.resolve(`../backend_laboratorio/src/`)
 
 //Guardamos en una constante una instancia de express
 const app = express()
+
 
 //Asignamos el metodo estatico que se debe de cargar de forma automatica en el navegador
 app.use(express.static(`../backend_laboratorio/src/` + 'Css'))
@@ -19,16 +23,20 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get("/",(req, res) =>{
-    res.render('pages/home')
-})
+Routes.home(app)
+Routes.login(app)
 
-app.get("/login",(req, res) =>{
-    res.render('pages/login')
-})
+// app.get("/",(req, res) =>{
+//     res.render('pages/home')
+// })
+
+// app.get("/login",(req, res) =>{
+//     res.render('pages/login')
+// })
 
 
 let counter = 1
+
 readDate(counter)
 setInterval(()=>{
     readDate(counter)

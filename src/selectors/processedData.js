@@ -1,8 +1,12 @@
 import { operationDataBase } from "../controllers/patient.lab.controllers.js"
 import { Patient } from "../services/patient.lab.services.js"
+import fs from 'fs'
+import path from 'path'
 
 
-export const integrationObject = async (str, arrayPatient, counter) => {
+export const integrationObject = async (str, arrayPatient, counter, executionTime) => {
+
+  let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/logsthereisnopatient/${executionTime.toDateString()}.log`)
   const [ IDMUESTR, NOMBRE, APELLIDO, MODO, FECHA, HORA, ESTDEMUESTRA, WBCL, NEUL,
     LYML, MONL, EOSL, BASL, NEU, MON, LYM, EOS, BAS, RBCL, HGBGDL, HCT, MCVFL, MCHPG, MCHCGDL,
     RDWCV, RDWSD, PLTL, MPVFL , PDW, PCTMLL, ALYL, ALY, LICL, LIC, BLASTL, BLAST, NRBCL,NRBC,
@@ -163,19 +167,24 @@ export const integrationObject = async (str, arrayPatient, counter) => {
     return person
   })
   resultShows.filter(async element => {
-    const nuAutoLadexLadr = await Patient.getLabAutoLadex()
-    //console.log(nuAutoLadexLadr)
-    const searchUserdId = await Patient.getPatientById(element.IDmuest)
-    const nuLabFact = await Patient.getLaboFact(element.IDmuest)
+    const nuAutoLadexLadr = await Patient.getLabAutoLadex(executionTime)
+    const searchUserdId = await Patient.getPatientById(element.IDmuest, executionTime)
+    const nuLabFact = await Patient.getLaboFact(element.IDmuest, executionTime)
     if(searchUserdId != undefined){
       if(searchUserdId[0].NU_DOCU_PAC === element.IDmuest){
         const newResultShows = {...element,
           'NU_AUTO_LADEX': nuAutoLadexLadr+counter,
           'NU_NUME_LABO_FACT': nuLabFact.LaboFact
         }
-        operationDataBase(newResultShows)
+        operationDataBase(newResultShows, executionTime)
       }
       counter++
+    }else{
+      fs.appendFileSync(
+        pathLog,
+        `\n messages: El número de identificación ${element.IDmuest}, no se encuentra creado en el sistema. Fecha de intento de cargue al sistema ${executionTime.toLocaleString()}`,
+        'utf-8',
+        )
     }
   })
 

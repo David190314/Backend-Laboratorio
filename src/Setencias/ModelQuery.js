@@ -20,7 +20,10 @@ export class Sql {
             let data = await new sql.Request(resultConnection).query(`${query}`)
             return data
         } catch (error) {
-            return `Actualmente el servidor de Base de datos no esta disponible` + error
+            throw {
+                Message : `Actualmente el servidor de Base de datos no esta disponible`,
+                Warnnig : error
+            }
         }
     }
 
