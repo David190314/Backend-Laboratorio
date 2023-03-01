@@ -5,7 +5,7 @@ import path from 'path'
 import { Console } from "console"
 
 
-export const integrationObject = async (str, arrayPatient, counter, executionTime) => {
+export const integrationObject = async (str, arrayPatient, executionTime) => {
   
   let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/logsthereisnopatient/${executionTime.toDateString()}.log`)
   const [WBC, NEU$,LYM$, MON$, EOS$, BAS$, NEU, MON, LYM, EOS, BAS, RBC, HGB, HCT, MCV, MCH, MCHC,
@@ -223,7 +223,6 @@ export const integrationObject = async (str, arrayPatient, counter, executionTim
         }
         
         operationDataBase(newResultShows, executionTime)
-        counter++
       }
     }else{
       fs.appendFileSync(

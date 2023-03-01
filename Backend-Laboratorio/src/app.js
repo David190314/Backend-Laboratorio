@@ -35,11 +35,10 @@ Routes.login(app)
 // })
 
 
-let counter = 1
 
-readDate(counter)
+readDate()
 setInterval(()=>{
-    readDate(counter)
+    readDate()
 }, 5000000)
 
 export { app }

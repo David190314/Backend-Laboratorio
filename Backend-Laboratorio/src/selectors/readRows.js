@@ -4,7 +4,7 @@ import { integrationObject } from './processedData.js'
 import { generateNumberRandom } from '../utils/random.js'
 
 
-export const readRows = ( headerArray, data, counter, executionTime) => {
+export const readRows = ( headerArray, data, executionTime) => {
   const number = generateNumberRandom()
   const [,,,,,,,WBC,NEU$,LYM$,MON$,EOS$,BAS$,NEU,LYM,MON,EOS,BAS,RBC,HGB,HCT,MCV,MCH,MCHC,RDWCV,RDWSD,PLT,MOV,PDW,PCT,,,,,,,,,,,,,,,,IDPAC,,,,,,,,,,,,,,,COMENTARIOS,MENSAJEWBC,MENSAJERBC,MENSAJEPLT] = headerArray
   //Constante que define la longitud de la cabezara del csv
@@ -25,7 +25,7 @@ export const readRows = ( headerArray, data, counter, executionTime) => {
       arrayPatient.push(data.splice(0, maxLentgUser))
     }
     //Enviamos el array que contiene los array de cada una de las muestras tomadas, y las cabezeras del csv
-    integrationObject(header, arrayPatient, counter, executionTime)
+    integrationObject(header, arrayPatient, executionTime)
 
     //Mover el documento
     const src = `../../../../../../Laboratorio_Clinico/Laboratorio/${fs.readdirSync(`../../../../../../Laboratorio_Clinico/Laboratorio/`).filter(element => element.endsWith('csv'))}`

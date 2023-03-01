@@ -1,7 +1,7 @@
 import { romoveQuotes } from './deleteCommans.js'
 import { readRows } from './readRows.js'
 
-export const dataJson = async ( dataFileHeader, dataFile, counter, executionTime ) => {
+export const dataJson = async ( dataFileHeader, dataFile, executionTime ) => {
   //Creamos un array con los datos de lectura, la clave "ID muestra" que almacenara el número de cedula del paciente
   const newDataFileHeader =  ["ID muestr", ...dataFileHeader]
   const newDataFile = [...dataFile]
@@ -11,7 +11,7 @@ export const dataJson = async ( dataFileHeader, dataFile, counter, executionTime
     const strDataFile = await romoveQuotes(newDataFile)
 
     //Enviamos el array a la funcion leer filas que divira el array para separarlo de las cabezeras del cvs y los datos de cada paciente
-    await readRows( strDataHeader, strDataFile, counter, executionTime )
+    await readRows( strDataHeader, strDataFile, executionTime )
   } catch (error) {
     throw `Problem read file ${error.message}`
   }
