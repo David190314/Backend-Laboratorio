@@ -6,17 +6,18 @@ import { Routes } from './routes/viewsRoutes.js'
 
 
 //Guardando en la ruta relativa de la estrutura del proyecto
-const __dirname = path.resolve(`../backend_laboratorio/src/`)
+const __dirname = path.resolve(`./src/`)
+
 
 //Guardamos en una constante una instancia de express
 const app = express()
 
 
 //Asignamos el metodo estatico que se debe de cargar de forma automatica en el navegador
-app.use(express.static(`../backend_laboratorio/src/` + 'Css'))
+app.use(express.static(`./src/` + 'Css'))
 
 //Configuración de ejs como motor de plantillas para el renderizado de vistas y templates 
-app.set('views', path.join(__dirname, 'Views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
 //Parsear las respuestas enviadas desde el navegador
