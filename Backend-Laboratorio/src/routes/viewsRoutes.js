@@ -12,6 +12,12 @@ export class Routes {
             res.render('pages/login')
         })
     }
+
+    static failed (app){
+        app.get("/",(req, res) =>{
+            res.render('pages/404')
+        })
+    }
 }
 
 

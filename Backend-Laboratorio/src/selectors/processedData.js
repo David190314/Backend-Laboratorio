@@ -5,7 +5,7 @@ import path from 'path'
 import { Console } from "console"
 
 
-export const integrationObject = async (str, arrayPatient, counter, executionTime) => {
+export const integrationObject = async (str, arrayPatient, executionTime) => {
   
   let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/logsthereisnopatient/${executionTime.toDateString()}.log`)
   const [WBC, NEU$,LYM$, MON$, EOS$, BAS$, NEU, MON, LYM, EOS, BAS, RBC, HGB, HCT, MCV, MCH, MCHC,
@@ -211,10 +211,9 @@ export const integrationObject = async (str, arrayPatient, counter, executionTim
     return person
   })
   resultShows.filter(async element => {
-    
     const searchUserdId = await Patient.getPatientById(element.OBJ[23].IDPAC, executionTime)
     //const nuAutoLadexLadr = await Patient.getLabAutoLadex(executionTime)
-    const nuLabFact = await Patient.getLaboFact(element.OBJ[23].IDPAC, executionTime)
+    //const nuLabFact = await Patient.getLaboFact(element.OBJ[23].IDPAC, executionTime)
     if(searchUserdId != undefined){
       if(searchUserdId[0].NU_DOCU_PAC === element.OBJ[23].IDPAC){
         const newResultShows = {...element,
@@ -222,8 +221,8 @@ export const integrationObject = async (str, arrayPatient, counter, executionTim
           'NU_NUME_LABO_FACT': nuLabFact.LaboFact || 0
         }
         
-        operationDataBase(newResultShows, executionTime)
-        counter++
+        //operationDataBase(newResultShows, executionTime)
+        
       }
     }else{
       fs.appendFileSync(
