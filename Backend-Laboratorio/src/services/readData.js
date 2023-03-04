@@ -32,7 +32,7 @@ const readDate = async () => {
     //Enviar los datos a la función que procesara los datos para convertirlos en formato Json
     dataJson(dataFile.slice(1, 66), dataFile.slice(66, dataFile.length), executionTime, [number,csv[0]])
 
-    moveDocument(`../../../../../../Laboratorio_Clinico/Laboratorio/${csv[0]}`, csv, number)
+    moveDocument(`../../../../../../Laboratorio_Clinico/Laboratorio/${csv[0]}`, csv, number, executionTime)
 
     // Escribe en archivo generado en la linea 14 si se pudo leer el archivo
     fs.appendFileSync(

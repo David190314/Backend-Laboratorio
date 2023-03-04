@@ -13,7 +13,17 @@ export class Sql {
             const connection = new sql.ConnectionPool(this.stringConnection)
             return connection
         } catch (err) {
-            throw err
+            console.log(err)
+            return err
+        }
+    }
+
+    async testConnection(pool){
+        try {
+            const resultConnection = await pool.connect()
+            return resultConnection
+        } catch (error) {
+            return error.originalError.code
         }
     }
 
@@ -24,8 +34,8 @@ export class Sql {
             let data = await new sql.Request(resultConnection).query(`${query}`)
             return data
         } catch (err) {
-            return `Actualmente el servidor de Base de datos no esta disponible`
-            //throw new Error(`Actualmente el servidor de Base de datos no esta disponible`)
+            const { message } = err
+            return message
         }
     }
 

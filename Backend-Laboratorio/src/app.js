@@ -20,10 +20,10 @@ app.set('view engine', 'ejs')
 //Parsear las respuestas enviadas desde el navegador
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-const test = sql.connectionDatabase(pool, 'select * from dbo.airports')
+const test = sql.testConnection(pool)
 test
 .then((resp)=>{
-    if(resp != 'Actualmente el servidor de Base de datos no esta disponible'){
+    if(resp != 'ETIMEOUT'){
         Routes.home(app)
         Routes.login(app)
     }else{

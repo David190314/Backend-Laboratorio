@@ -17,10 +17,10 @@ export class Patient {
             const { message, Warnnig } = error
             fs.appendFileSync (
                 pathLog,
-                `\n Messages: ${ message }; Warnnig: ${Warnnig} getPatientById`,
+                `\n Messages: ${ message }; Warnnig: ${Warnnig} getPatientById: ${id} ${executionTime}`,
                 'utf-8',
             )
-            throw message + Warnnig
+            return message + Warnnig
 
         }
     }
@@ -36,10 +36,10 @@ export class Patient {
             const { message, Warnnig } = error
             fs.appendFileSync (
                 pathLog,
-                `\n Messages: ${ message }; Warnnig: ${Warnnig} getLaboFact`,
+                `\n Messages: ${ message }; Warnnig: ${Warnnig} getLaboFact from id: ${id} ${executionTime}`,
                 'utf-8',
             )
-            throw message + Warnnig
+            return message + Warnnig
         }
     }
 
@@ -49,7 +49,6 @@ export class Patient {
         let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
         try {
             await sql.connectionDatabase( pool, query )
-
         } catch (error) {
             const { message, Warnnig } = error
             fs.appendFileSync (
@@ -57,25 +56,25 @@ export class Patient {
                 `\n Messages: ${ message }; Warnnig: ${Warnnig} insertLaboExamen `,
                 'utf-8',
             )
-            throw message + Warnnig
+            return message + Warnnig
         }
     }
 
     //Metodo que obtiene el auntoincrement de la tabla LABO_ADMINEXAMEN, para proceder con la relación muchos a muchos LABO_DATOS_RESU
-    static async getLabAutoLadex(prb, executionTime ){
-        
+    static async getLabAutoLadex( id, executionTime ){
+        let query = `select top(1) NU_AUTO_LADEX from LABO_ADMINEXAMEN where (NU_HIST_PAC_LADEX = '${id}') and CD_CODI_SER_LADEX = '19304' and NU_NUME_HPRO_LADEX = 11 order by NU_AUTO_LADEX desc`
+        let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
         try {
-            const nuAutoLadex = await sql.connectionDatabase(pool, prb)
+            const nuAutoLadex = await sql.connectionDatabase(pool, query)
             return nuAutoLadex.recordset[0]
         } catch (error) {
-            let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
             const { Message, Warnnig } = error
             fs.appendFileSync (
                 pathLog,
-                `\n Messages: ${ Message }; Warnnig: ${Warnnig} getLabAutoLadex`,
+                `\n Messages: ${ Message }; Warnnig: ${Warnnig} getLabAutoLadex from id: ${id} ${executionTime}`,
                 'utf-8',
             )
-            throw Message + Warnnig
+            return Message + Warnnig
         }
     }
 
@@ -88,10 +87,26 @@ export class Patient {
             const { message, Warnnig } = error
             fs.appendFileSync (
                 pathLog,
-                `\n Messages: ${ message }; Warnnig: ${Warnnig} insertLaboDatosResu `,
+                `\n Messages: ${ message }; Warnnig: ${Warnnig} insertLaboDatosResu, ${executionTime} `,
                 'utf-8',
             )
-            throw message + Warnnig
+            return message + Warnnig
+        }
+    }
+
+    //Metodo que crea en la tabla BACKENDLAB los usuarios con laboratorio registrado exitosamente
+    static async insterConfirmResult (query, executionTime, id){
+        let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
+        try {
+            await sql.connectionDatabase( pool, query )
+        } catch (error) {
+            const { message, Warnnig } = error
+            fs.appendFileSync (
+                pathLog,
+                `\n Messages: ${ message }; Warnnig: ${Warnnig} insterConfirmResult from id: ${id} ${executionTime} `,
+                'utf-8',
+            )
+            return  message + Warnnig
         }
     }
 

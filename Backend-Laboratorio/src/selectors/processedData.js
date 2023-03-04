@@ -2,10 +2,9 @@ import { operationDataBase } from "../controllers/patient.lab.controllers.js"
 import { Patient } from "../services/patient.lab.services.js"
 import fs from 'fs'
 import path from 'path'
-import { Console } from "console"
 
 
-export const integrationObject = async (str, arrayPatient, executionTime) => {
+export const integrationObject = async (str, arrayPatient, executionTime, file) => {
   
   let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/logsthereisnopatient/${executionTime.toDateString()}.log`)
   const [WBC, NEU$,LYM$, MON$, EOS$, BAS$, NEU, MON, LYM, EOS, BAS, RBC, HGB, HCT, MCV, MCH, MCHC,
@@ -212,16 +211,15 @@ export const integrationObject = async (str, arrayPatient, executionTime) => {
   })
   resultShows.filter(async element => {
     const searchUserdId = await Patient.getPatientById(element.OBJ[23].IDPAC, executionTime)
-    //const nuAutoLadexLadr = await Patient.getLabAutoLadex(executionTime)
-    //const nuLabFact = await Patient.getLaboFact(element.OBJ[23].IDPAC, executionTime)
     if(searchUserdId != undefined){
       if(searchUserdId[0].NU_DOCU_PAC === element.OBJ[23].IDPAC){
+        const nuLabFact = await Patient.getLaboFact(element.OBJ[23].IDPAC, executionTime)
         const newResultShows = {...element,
           'NU_AUTO_LADEX': 0,
           'NU_NUME_LABO_FACT': nuLabFact.LaboFact || 0
         }
-        
-        //operationDataBase(newResultShows, executionTime)
+        await Patient.insterConfirmResult(`INSERT INTO DBO.BACKENDLAB (NU_HIST_PAC, DOCUMENT) VALUES ('${element.OBJ[23].IDPAC}', '${file}')`, executionTime, element.OBJ[23].IDPAC)
+        operationDataBase(newResultShows, executionTime)
         
       }
     }else{
