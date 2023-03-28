@@ -36,7 +36,7 @@ test
 
 
 
-readDate()
+readDate('.txt')
 setInterval(()=>{
     readDate()
 }, 5000000)

@@ -220,7 +220,6 @@ export const integrationObject = async (str, arrayPatient, executionTime, file) 
         }
         await Patient.insterConfirmResult(`INSERT INTO DBO.BACKENDLAB (NU_HIST_PAC, DOCUMENT) VALUES ('${element.OBJ[23].IDPAC}', '${file}')`, executionTime, element.OBJ[23].IDPAC)
         operationDataBase(newResultShows, executionTime)
-        
       }
     }else{
       fs.appendFileSync(
