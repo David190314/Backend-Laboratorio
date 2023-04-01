@@ -1,15 +1,27 @@
+<%- include('../templates/cabezara')-%>
 <link rel="stylesheet" href="./style.css">
 <section class="container-form">
-    <form action="" method="post">
+    <form action="/login" method="POST" >
         <img src="./Login.png" alt="Login" class="img-login">
         <div class="container-input-login">
             <img src="./user.png" alt="user" class="img-form-login-user">
-            <input type="text" name="user" id="user" placeholder="Usuario">
+            <input type="number" name="ID" id="ID" placeholder="ID" autofocus>
         </div>
         <div class="container-input-login">
-            <img src="./unlocked.png" alt="password" class="img-form-login-password">
-            <input type="password" name="password" id="password" placeholder="Contraseña">
+            <img src="./show.png" alt="password" class="img-form-login-password" id="unlocked_show">
+            <input type="password" name="password" id="password" class="margin-right_input__password" placeholder="Contraseña" >
         </div>
-        <input type="submit" value="LOGIN" class="input-button-login">
+        <input type="submit" value="LOGIN" class="input-button-login" id="sumbitForm">
     </form>
+    <script type="text/javascript">
+        const unlocked = document.getElementById('unlocked_show')
+        const inputPassword = document.getElementById('password')
+        unlocked.addEventListener('click',()=>{
+            if(inputPassword.type === 'password'){
+                inputPassword.type="text"
+            }else{
+                inputPassword.type="password"
+            }
+        })
+    </script>
 </section>

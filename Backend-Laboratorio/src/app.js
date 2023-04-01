@@ -1,44 +1,50 @@
-import express from 'express'
-import path from 'path'
-import { pool, sql } from './Setencias/initConnection.js'
-import { readDate } from './services/readData.js'
-import { Routes } from './routes/viewsRoutes.js'
+import express from 'express';
+import path from 'path';
+import { pool, sql } from './Setencias/initConnection.js';
+import { readDate } from './services/readData.js';
+import authRouter from './routes/viewsRoutes.js';
+import passport from 'passport';
+import sessionConfig from './Auth/session.config.js';
+import './Auth/passports.js'
 
 //Guardando en la ruta relativa de la estrutura del proyecto
-const __dirname = path.resolve(`./src/`)
+const __dirname = path.resolve(`./src/`);
 
 //Guardamos en una constante una instancia de express
-const app = express()
+const app = express();
 
 //Asignamos el metodo estatico que se debe de cargar de forma automatica en el navegador
-app.use(express.static(`./src/` + 'Css'))
+app.use(express.static(`./src/` + 'Css'));
 
 //Configuración de ejs como motor de plantillas para el renderizado de vistas y templates
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 
 //Parsear las respuestas enviadas desde el navegador
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-const test = sql.testConnection(pool)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(sessionConfig);
+app.use(passport.initialize());
+app.use(passport.session());
+const test = sql.testConnection(pool);
 test
 .then((resp)=>{
     if(resp != 'ETIMEOUT'){
-        Routes.home(app)
-        Routes.login(app)
+        app.use(authRouter)
+        //readDate('.txt');
     }else{
-        Routes.failed(app)
+        Routes.failed();
     }
 })
 .catch((error)=>{
-    console.log(error)
+    console.log(error);
 })
 
 
 
-readDate('.txt')
-setInterval(()=>{
-    readDate()
-}, 5000000)
+
+// setInterval(()=>{
+//     readDate()
+// }, 5000000)
 
 export { app }

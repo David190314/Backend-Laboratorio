@@ -1,23 +1,29 @@
-export class Routes {
+import { loginLocalAut } from "../Auth/lacalAuth.js"
+import { Router } from "express";
+import protectRoute from "../middlewares/protect-routes.js";
 
-    static home (app) {
-        app.get("/",(req, res) =>{
-            res.render('pages/home')
-        })
-
+class Routes {
+    static home (req, res) {
+        res.render('pages/login', { title: 'Iniciar Sesíon' })
     }
-
-    static login (app) {
-        app.get("/login",(req, res) =>{
-            res.render('pages/login')
-        })
+    static login (req, res) {
+        res.render('pages/login', { title: 'Iniciar Sesíon' })
     }
-
-    static failed (app){
-        app.get("/",(req, res) =>{
-            res.render('pages/404')
-        })
+    static logout(req, resp) {
+        req.logout();
+        return resp.redirect('/login')
+    }
+    static getHome (req, res){
+        res.render('pages/home')
     }
 }
 
+const authRouter =  Router()
+authRouter.get( '/', Routes.login )
+authRouter.get( '/login', Routes.login )
+authRouter.post('/login',loginLocalAut)
+authRouter.get('/home',protectRoute ,Routes.getHome)
+authRouter.get('/logout', Routes.logout)
+
+export default authRouter
 

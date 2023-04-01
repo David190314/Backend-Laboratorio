@@ -58,9 +58,8 @@ export const deleteJumps =  async ( file, pathDoc, searchTypeDoc, number, execut
             }
 
             if(objLabo.flag){
-                
-                const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TOPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`)
-                console.log(data)
+                //const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TOPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`)
+                console.log('read successfully')
             }
         }
         
