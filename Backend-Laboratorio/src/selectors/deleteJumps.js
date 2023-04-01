@@ -1,4 +1,5 @@
 import { pool, sql } from "../Setencias/initConnection.js"
+import { fullDate } from "../utils/formatDate.js"
 export const deleteJumps =  async ( file, pathDoc, searchTypeDoc, number, executionTime)=>{
     const homeChane = file[0]
     const data = file.replace(/\r\n/g,'|')
@@ -58,7 +59,7 @@ export const deleteJumps =  async ( file, pathDoc, searchTypeDoc, number, execut
 
             if(objLabo.flag){
                 
-                const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TOPO_LABO, DOCUMENTO, MATCH, RESULTADO, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}',0)`)
+                const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TOPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`)
                 console.log(data)
             }
         }

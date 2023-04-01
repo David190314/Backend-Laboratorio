@@ -2,11 +2,11 @@ import path from 'path'
 import fs from 'fs'
 import { Patient } from '../services/patient.lab.services.js'
 import { generateNumberRandom } from '../utils/random.js'
+import { fullDate } from '../utils/formatDate.js'
 
 export const operationDataBase = async ( lab, executionTime) =>{
 
     let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
-    const date = new Date()
     const lenObj = lab.OBJ.length
     let numberRandom = generateNumberRandom()
     const nuNumeHproLadex = 11
@@ -15,15 +15,6 @@ export const operationDataBase = async ( lab, executionTime) =>{
     const cdCodiSerLadex = '19304'
     const nuOriordLadex= 0
     const txConeValiLadex = 'MFIGUEROA'
-
-    const objDate = {
-        'year': date.getFullYear(),
-        'month': date.getMonth()+1,
-        'day':  date.getDate(),
-        'hour': date.getHours(),
-        'minutes': date.getMinutes()
-    }
-    const fullDate = objDate.year+'-'+objDate.month+'-'+objDate.day+' '+objDate.hour+':'+objDate.minutes
 
     async function laboAdminExamen( query, id ){
         await Patient.insertLaboExamen( query, executionTime )
