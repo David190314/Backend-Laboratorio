@@ -1,23 +1,7 @@
+<%- include('../templates/cabezera')-%>
 <body>
     <header>
         <%- include('../templates/head')-%>
     </header>
-    <div class="containerSidebar">
-        <div class="SidebarHome">
-            <ul>
-                <li class="buttonSidebar"> <a href="/users">USERS</a> </li>
-                <li class="buttonSidebar"> <a href="/register">CREATE</a> </li>
-                <li class="buttonSidebar"> <a href="/update">UPDATE</a> </li>
-                <li class="buttonSidebar"> <a href="/delete">DELETE</a> </li>
-                <li class="buttonSidebar"> <a href="/search">SEARCH</a> </li>
-                <li class="buttonSidebar"> <a href="/search">SEND</a> </li>
-                <li class="buttonSidebar"> <a href="/search">DOCUMENTATION</a> </li>
-            </ul>
-        </div>
-        <p>All rights reserved.</p>
-        <p>Copyright © 2023 Ciosad.</p>
-    </div>
-    <div class="buttonLogout">
-        <ul> <li> <a href="/login">Logout</a> </li></ul>
-    </div>
+    <%- include('../templates/router')-%>
 </body>

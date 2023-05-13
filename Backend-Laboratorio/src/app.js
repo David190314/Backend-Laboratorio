@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { pool, sql } from './Setencias/initConnection.js';
-import { readDate } from './services/readData.js';
+//import { readDate } from './services/readData.js';
 import authRouter from './routes/viewsRoutes.js';
 import passport from 'passport';
 import sessionConfig from './Auth/session.config.js';
@@ -31,13 +31,13 @@ test
 .then((resp)=>{
     if(resp != 'ETIMEOUT'){
         app.use(authRouter)
-        //readDate('.txt');
+        //readDate('.csv');
     }else{
         Routes.failed();
     }
 })
 .catch((error)=>{
-    console.log(error);
+    console.log('error');
 })
 
 

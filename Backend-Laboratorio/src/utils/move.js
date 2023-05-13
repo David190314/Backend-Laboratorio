@@ -2,6 +2,7 @@ import fs from 'fs-extra'
 import path from 'path'
 
 
+
 export const moveDocument = (src, file, number, executionTime) =>{
     let pathLog = path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
     try {

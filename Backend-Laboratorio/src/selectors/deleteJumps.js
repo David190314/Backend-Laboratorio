@@ -2,12 +2,14 @@ import { pool, sql } from "../Setencias/initConnection.js"
 import { fullDate } from "../utils/formatDate.js"
 export const deleteJumps =  async ( file, pathDoc, searchTypeDoc, number, executionTime)=>{
     const homeChane = file[0]
+    console.log('homeChane')
     const data = file.replace(/\r\n/g,'|')
     let array = []
     let counter = 0
     for(let i=0; i<data.length; i++){
         if(data[i] === '|'){
             let labo = data.slice(counter+1,i).replace(/[N]|\s+/g,'').split(';')
+            //console.log(labo)
             array.push(labo.slice(0,3).concat(labo.slice(10,labo.length)).join(',').replace(/([mg/dl])\w+/g,'').split(','))
             counter = i
         }
@@ -58,8 +60,8 @@ export const deleteJumps =  async ( file, pathDoc, searchTypeDoc, number, execut
             }
 
             if(objLabo.flag){
-                //const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TOPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`)
-                console.log('read successfully')
+                const data = await sql.connectionDatabase(pool, `insert into dbo.RESULT_INTERFA(TIPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`)
+                console.log(data)
             }
         }
         

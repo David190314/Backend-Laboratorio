@@ -5,6 +5,7 @@ import { generateNumberRandom } from '../utils/random.js'
 import { moveDocument } from '../utils/move.js'
 import { deleteJumps } from '../selectors/deleteJumps.js'
 
+
 //Llamado a la funcion que realizara llamados a otras funciones para la creación del json
 import { dataJson } from '../selectors/dataJson.js'
 
@@ -27,7 +28,6 @@ const readDate = async (type) => {
     let number = generateNumberRandom()
     //Lectura del primer archivo que se encuentra en el directorio
     const file = fs.readFileSync(`../../../../../../Laboratorio_Clinico/Laboratorio/${searchTypeDoc[0]}`, 'utf-8')
-    
     //validar el tipo de archivo en lectura
     if(type === '.csv'){
       //Separar por coma cada una de las posiciones leidas
