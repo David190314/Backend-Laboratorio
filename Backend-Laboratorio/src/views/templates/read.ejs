@@ -1,0 +1,33 @@
+<div class="interface-container">
+    <div class="containerSidebar">
+        <div class="SidebarHome">
+            <ul>
+                <li class="buttonSidebar"> <a href="/read">CARGAR</a> </li>
+                <li class="buttonSidebar"> <a href="/event">EVENTOS</a> </li>
+                <li class="buttonSidebar"> <a href="/search">CONSULTAR</a> </li>
+            </ul>
+        </div>
+        <div class="container-publisher-document">
+            <p>Hematologia</p>
+            <p><%= dateLabo%> </p>
+            <p>Quimica</p>
+            <p>2023 San Juan de Dios 2023 ©</p>
+        </div>
+    </div>
+    <div id="uploadForm-container">
+        <form action="/read" enctype="multipart/form-data" method="post">
+            <label for="documento">Selecciona un documento:</label>
+            <input type="file" id="documento" name="documento" accept=".csv, .txt" required>
+            <br><br>
+            <input type="submit" value="Cargar documento">
+        </form>
+    </div>
+    </div>
+    <div class="buttonLogout">
+    <form action="/logout" method="GET" id="formClosedSesion">
+        <button type="submit" class="buttonLogout">Exit</button>
+    </form>
+</div>
+
+
+

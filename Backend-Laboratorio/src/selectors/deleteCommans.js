@@ -6,6 +6,7 @@ export const romoveQuotes = (data) => {
       let elementIte = element.replace(reg, '')
       return elementIte.length>1 ? elementIte : 'N/A'
     })
+ 
 
     //Antes de retornar el arreglo, cortamos la ultima posicion que es undefined.
     return str.slice(0, str.length-1)
