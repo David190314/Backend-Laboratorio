@@ -210,7 +210,6 @@ export const integrationObject = async (str, arrayPatient, executionTime, file) 
     return person
   })
   resultShows.filter(async element => {
-    console.log(element.OBJ[23].IDPAC)
     const searchUserdId = await Patient.getPatientById(element.OBJ[23].IDPAC, executionTime)
     if(searchUserdId != undefined){
       if(searchUserdId[0].NU_DOCU_PAC === element.OBJ[23].IDPAC){

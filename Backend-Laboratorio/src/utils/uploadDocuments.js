@@ -6,7 +6,7 @@ export const storage = (request, response, next) =>{
     const storage = multer.diskStorage({
         destination:function(request, file, callback)
       {
-        callback(null, '../../../../../../Laboratorio_Clinico/Laboratorio/');
+        callback(null, '../../../../../../Laboratorio_Clinico/Laboratorio/file_process/');
       },
         filename : function(request, file, callback)
       {
@@ -31,11 +31,8 @@ export const storage = (request, response, next) =>{
     {
       const point = '.'
       const typeDocument =  point.concat(request.file.originalname.split('.')[1])
-      const a = readDate(typeDocument)
-      a.then((e)=>{
-        console.log(e)
-      })
-      return response.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo:'result' } )
+      readDate(typeDocument, request.file.originalname, request.file.filename)
+      return response.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo: request.file.originalname } )
     }
 
   })

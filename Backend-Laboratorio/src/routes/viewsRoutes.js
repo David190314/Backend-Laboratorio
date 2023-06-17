@@ -2,7 +2,6 @@ import { loginLocalAut } from "../Auth/lacalAuth.js"
 import { Router } from "express";
 import { lastAnalyte } from "../utils/lastAnalyte.js";
 import protectRoute from "../middlewares/protect-routes.js";
-import { readDate } from "../services/readData.js";
 import { storage } from "../utils/uploadDocuments.js";
 const result = await lastAnalyte()
 
@@ -15,7 +14,6 @@ class Routes {
         req.logout(function(error){
             try {
                 resp.redirect('/login')
-                console.log(result)
             } catch (error) {
                 resp.clearCookie('connect.sid');
                 return resp.redirect('/login');
@@ -23,7 +21,6 @@ class Routes {
         });
     }
     static getHome (req, res){
-        const f = readDate('.csv')
         res.render('pages/home', { people: fullname, title: 'Bienvenido', dateLabo:result } )
     }
 
@@ -36,7 +33,7 @@ class Routes {
 
 const authRouter =  Router()
 authRouter.get( '/', Routes.login )
-authRouter.get( '/login', Routes.login,  )
+authRouter.get( '/login', Routes.login)
 authRouter.post('/login',loginLocalAut)
 authRouter.get('/home',protectRoute ,Routes.getHome)
 authRouter.get('/logout', Routes.logout)

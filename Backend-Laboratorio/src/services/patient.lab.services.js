@@ -110,4 +110,31 @@ export class Patient {
         }
     }
 
+    //Metodo que retorna los ultimos documentos de Hematologia y Qumica leidos.
+
+    static async lastDocumentRead(query){
+        try{
+            const lastDocument = await sql.connectionDatabase(pool, query)
+            return lastDocument.recordset[0].DOCUMENT
+        }catch(error){
+            return 'There are currently no documents uploaded'
+        }
+    }
+
+    //metodo que carga los laboratorios de quimica a la base de datos
+
+    static async insterChemistry(query, executionTime){
+        let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/chemistry/${executionTime.toDateString()}.log`)
+        try {
+            await sql.connectionDatabase(pool, query)
+        } catch (error) {
+            const { message, Warnnig } = error
+            fs.appendFileSync (
+                pathLog,
+                `\n Messages: ${ message }; failed conect to databases${executionTime} `,
+                'utf-8',
+            )
+        }
+
+    }
 }
