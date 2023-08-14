@@ -32,7 +32,11 @@ export const storage = (request, response, next) =>{
       const point = '.'
       const typeDocument =  point.concat(request.file.originalname.split('.')[1])
       readDate(typeDocument, request.file.originalname, request.file.filename)
-      return response.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo: request.file.originalname } )
+      const date = new Date();
+      const isoDateString = date
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = date.toLocaleDateString('es-ES', options);
+      return response.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLaboDocument: request.file.originalname, dateRead:formattedDate } )
     }
 
   })

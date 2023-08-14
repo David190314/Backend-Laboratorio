@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { Patient } from '../services/patient.lab.services.js'
-import { generateNumberRandom } from '../utils/random.js'
+import { generateNumberRandom } from '../utils/random_notuse.js'
 import { fullDate } from '../utils/formatDate.js'
 
 export const operationDataBase = async ( lab, executionTime) =>{

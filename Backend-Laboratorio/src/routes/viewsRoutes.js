@@ -21,11 +21,11 @@ class Routes {
         });
     }
     static getHome (req, res){
-        res.render('pages/home', { people: fullname, title: 'Bienvenido', dateLabo:result } )
+        res.render('pages/home', { people: fullname, title: 'Bienvenido', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
     }
 
     static read (req, res){
-        res.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo:result } )
+        res.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo:result, dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
     }
 
 }
@@ -33,12 +33,12 @@ class Routes {
 
 const authRouter =  Router()
 authRouter.get( '/', Routes.login )
-authRouter.get( '/login', Routes.login)
-authRouter.post('/login',loginLocalAut)
-authRouter.get('/home',protectRoute ,Routes.getHome)
-authRouter.get('/logout', Routes.logout)
-authRouter.get('/read',protectRoute, Routes.read)
-authRouter.post('/read',protectRoute, storage)
+authRouter.get( '/login', Routes.login )
+authRouter.post( '/login', loginLocalAut )
+authRouter.get( '/home',protectRoute ,Routes.getHome )
+authRouter.get( '/logout', Routes.logout )
+authRouter.get( '/read',protectRoute, Routes.read )
+authRouter.post( '/read',protectRoute, storage )
 
 export default authRouter
 

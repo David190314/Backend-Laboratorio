@@ -222,11 +222,8 @@ export const integrationObject = async (str, arrayPatient, executionTime, file) 
         operationDataBase(newResultShows, executionTime)
       }
     }else{
-      fs.appendFileSync(
-        pathLog,
-        `\n messages: El número de identificación ${element.OBJ[23].IDPAC}, no se encuentra creado en el sistema. Fecha de intento de cargue al sistema ${executionTime.toLocaleString()}`,
-        'utf-8',
-        )
+      const query = `insert into DBO.LOGREAD (NU_HIST_PAC, DOCUMENTREAD) VALUES(${element.OBJ[23].IDPAC},'${file}' )`
+      await Patient.insertLogUplod(query, executionTime)
     }
   })
 }

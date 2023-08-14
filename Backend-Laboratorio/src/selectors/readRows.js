@@ -1,10 +1,8 @@
 
 import { integrationObject } from './processedData.js'
-import { generateNumberRandom } from '../utils/random.js'
 
 export const readRows = ( headerArray, data, executionTime, file) => {
   
-  const number = generateNumberRandom()
   const [,,,,,,,WBC,NEU$,LYM$,MON$,EOS$,BAS$,NEU,LYM,MON,EOS,BAS,RBC,HGB,HCT,MCV,MCH,MCHC,RDWCV,RDWSD,PLT,MOV,PDW,PCT,,,,,,,,,,,,,,,,IDPAC,,,,,,,,,,,,,,,COMENTARIOS,MENSAJEWBC,MENSAJERBC,MENSAJEPLT] = headerArray
   
   //Constante que define la longitud de la cabezara del csv

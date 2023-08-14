@@ -115,7 +115,15 @@ export class Patient {
     static async lastDocumentRead(query){
         try{
             const lastDocument = await sql.connectionDatabase(pool, query)
-            return lastDocument.recordset[0].DOCUMENT
+            const isoDateString = lastDocument.recordset[0].FE_LAB_EXECUTION
+            const date = new Date(isoDateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = date.toLocaleDateString('es-ES', options);
+            const dataUploadDocument = {
+                Document : lastDocument.recordset[0].DOCUMENT,
+                FE_LAB_EXECUTION : formattedDate
+            }
+            return dataUploadDocument
         }catch(error){
             return 'There are currently no documents uploaded'
         }
@@ -136,5 +144,19 @@ export class Patient {
             )
         }
 
+    }
+
+    static async insertLogUplod (query, executionTime){
+        let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/chemistry/${executionTime.toDateString()}.log`)
+        try {
+            await sql.connectionDatabase(pool, query)
+        } catch (error) {
+            const { message, Warnnig } = error
+            fs.appendFileSync (
+                pathLog,
+                `\n Messages: ${ message }; failed conect to databases${executionTime} `,
+                'utf-8',
+            )
+        }
     }
 }

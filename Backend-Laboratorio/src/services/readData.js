@@ -1,7 +1,6 @@
 //Importando modulos de de fs y path para leer directorios y archivos del sistema operativo
 import fs from 'fs-extra'
 import path from 'path'
-import { generateNumberRandom } from '../utils/random.js'
 //import { uploadChemistry } from './readChemistry.js'
 import { deleteJumps } from '../selectors/deleteJumps.js'
 
@@ -11,11 +10,8 @@ import { dataJson } from '../selectors/dataJson.js'
 //Funcion que lee el archivo y crea log con la descripcción de la dia fecha y hora de la lectura del documento
 const readDate = async (type, document, fileUpload) => {
   const file = fs.readFileSync(`../../../../../../Laboratorio_Clinico/Laboratorio/file_process/${fileUpload}`, 'utf-8')
-  let samples = ''
   let executionTime = await new Date()
   //Varible de lectura de fecha y hora del sistema operativo de forma asincrona
-
-  let number = generateNumberRandom()
 
   //Creando el archivo con el nombre {DiaMesDianumeroAño.log}
   let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/${executionTime.toDateString()}.log`)
@@ -26,17 +22,15 @@ const readDate = async (type, document, fileUpload) => {
       let dataFile = file.split(',')
       //Enviar los datos a la función que procesara los datos para convertirlos en formato Json
       dataJson(dataFile.slice(1, 66), dataFile.slice(66, dataFile.length), executionTime, document)
-      samples = Math.round((dataFile.length-66)/66)
-
-      // Escribe en archivo generado en la linea 14 si se pudo leer el archivo
-      fs.appendFileSync(
-        pathLog,
-        `\n messages: The document read succesfully, nameDocument: ${document} ExecuteDate: ${executionTime.toLocaleString()}`,
-        'utf-8',
-      )
     }else{
-      await deleteJumps(file, executionTime)
+      await deleteJumps(file, executionTime, document)
     }
+    // Escribe en archivo generado en la linea 14 si se pudo leer el archivo
+    fs.appendFileSync(
+      pathLog,
+      `\n messages: The document read succesfully, nameDocument: ${document} ExecuteDate: ${executionTime.toLocaleString()}`,
+      'utf-8',
+    )
   } catch (error) {
     fs.appendFileSync(
       pathLog,
@@ -46,8 +40,5 @@ const readDate = async (type, document, fileUpload) => {
       'utf-8',
     )
   }
-
-  return samples
 }
-
 export { readDate }

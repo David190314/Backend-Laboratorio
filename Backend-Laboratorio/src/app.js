@@ -4,6 +4,7 @@ import { pool, sql } from './Setencias/initConnection.js';
 import authRouter from './routes/viewsRoutes.js';
 import passport from 'passport';
 import sessionConfig from './Auth/session.config.js';
+import flahs from 'connect-flash'
 import './Auth/passports.js'
 
 //Guardando en la ruta relativa de la estrutura del proyecto
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(sessionConfig);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flahs())
 const test = sql.testConnection(pool);
 test
 .then((resp)=>{

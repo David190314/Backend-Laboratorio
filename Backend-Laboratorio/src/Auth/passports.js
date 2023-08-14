@@ -11,19 +11,22 @@ const myStrategy = LocalStrategy.Strategy
 passport.use(new myStrategy({
     usernameField: 'ID'
 }, async (ID, password, done) => {
-    if(ID === process.env.USERLOGIN && process.env.PASSWORDLOGIN === password){
-        passport.serializeUser(function (Cedula, done) {
-            done(null, Cedula);
-        });
-        passport.deserializeUser(function (Cedula, done) {
-            done(null, Cedula);
-        });
-        return done(null, process.env.USERLOGIN)
-    }
 
-    if (ID != process.env.USERLOGIN && process.env.PASSWORDLOGIN != password) {
-        return done(null, false, {
-            message: 'Password Incorrecto'
-        });
+    try{
+        if(ID === process.env.USERLOGIN && process.env.PASSWORDLOGIN === password){
+            passport.serializeUser(function (Cedula, done) {
+                done(null, Cedula);
+            });
+            passport.deserializeUser(function (Cedula, done) {
+                done(null, Cedula);
+            });
+            return done(null, ID)
+        }else{
+            return done(null, false,{
+                message: 'Password Incorrecto'
+            });
+        }
+    }catch(error){
+        return 'Currently the session can not be attended'
     }
 }))
