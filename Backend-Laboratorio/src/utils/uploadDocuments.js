@@ -1,8 +1,11 @@
 import multer from 'multer'
 const fullname = 'Administrador'
 import { readDate } from '../services/readData.js';
+import { formatDate } from './formatDate.js';
 
-export const storage = (request, response, next) =>{
+export const storage = async (request, response, next) =>{
+    const date = new Date();
+    let dateInsertLab = await formatDate(date)
     const storage = multer.diskStorage({
         destination:function(request, file, callback)
       {
@@ -31,8 +34,7 @@ export const storage = (request, response, next) =>{
     {
       const point = '.'
       const typeDocument =  point.concat(request.file.originalname.split('.')[1])
-      readDate(typeDocument, request.file.originalname, request.file.filename)
-      const date = new Date();
+      readDate(typeDocument, request.file.originalname, request.file.filename, dateInsertLab)
       const isoDateString = date
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = date.toLocaleDateString('es-ES', options);

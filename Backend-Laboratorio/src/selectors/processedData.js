@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 
 
-export const integrationObject = async (str, arrayPatient, executionTime, file) => {
+export const integrationObject = async (str, arrayPatient, executionTime, file, fullDate) => {
   
   let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs/logsthereisnopatient/${executionTime.toDateString()}.log`)
   const [WBC, NEU$,LYM$, MON$, EOS$, BAS$, NEU, MON, LYM, EOS, BAS, RBC, HGB, HCT, MCV, MCH, MCHC,
@@ -219,7 +219,7 @@ export const integrationObject = async (str, arrayPatient, executionTime, file) 
           'NU_NUME_LABO_FACT': nuLabFact.LaboFact || 0
         }
         await Patient.insterConfirmResult(`INSERT INTO DBO.BACKENDLAB (NU_HIST_PAC, DOCUMENT) VALUES ('${element.OBJ[23].IDPAC}', '${file}')`, executionTime, element.OBJ[23].IDPAC)
-        operationDataBase(newResultShows, executionTime)
+        operationDataBase(newResultShows, executionTime, fullDate)
       }
     }else{
       const query = `insert into DBO.LOGREAD (NU_HIST_PAC, DOCUMENTREAD) VALUES(${element.OBJ[23].IDPAC},'${file}' )`

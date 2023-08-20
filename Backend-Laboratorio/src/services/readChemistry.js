@@ -1,9 +1,8 @@
 import { Patient } from "./patient.lab.services.js";
-import { fullDate } from "../utils/formatDate.js";
 import fs from 'fs';
 import path from "path";
 
-const uploadChemistry = async (file, executionTime, fileUpload) =>{
+const uploadChemistry = async (file, executionTime, fileUpload, fullDate) =>{
     class Person {
         constructor({ OBJ, mgDl }){
             this.OBJ=[
@@ -13,10 +12,10 @@ const uploadChemistry = async (file, executionTime, fileUpload) =>{
     }
     file.map(async(element)=>{
         try{
-
             const [ LAB, ID ] = element
             const searchUserdId = await Patient.getPatientById(element[1], executionTime)
             if(searchUserdId!= undefined && searchUserdId[0].NU_DOCU_PAC === element[1]){
+                await Patient.insterConfirmResult(`INSERT INTO DBO.BACKENDLAB (NU_HIST_PAC, DOCUMENT) VALUES ('${element[1]}', '${fileUpload}')`, executionTime, element[1])
                 element.splice(0,2)
                 const person = new Person({
                     mgDl: {
@@ -41,7 +40,7 @@ const uploadChemistry = async (file, executionTime, fileUpload) =>{
                             }
                     if(objLabo.flag){
                         const data = `insert into dbo.RESULT_INTERFA(TIPO_LABO, DOCUMENTO, MATCH, RESULTADO, FECHA, ESTADO) values('${objLabo.type}','${objLabo.id}' , '${objLabo.labo}', '${objLabo.valueLabo}','${fullDate}',0)`
-                        await Patient.insterChemistry(data, executionTime)
+                        //await Patient.insterChemistry(data, executionTime)
                     }
                 }
             }else{

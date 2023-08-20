@@ -1,6 +1,6 @@
 import { uploadChemistry } from "../services/readChemistry.js"
 
-async function deleteJumps(file, executionTime, fileUpload) {
+async function deleteJumps(file, executionTime, fileUpload, fullDate) {
     const homeChane = file[0]
     const data = await file.replace(/\r\n/g, '|')
     let array = []
@@ -18,7 +18,7 @@ async function deleteJumps(file, executionTime, fileUpload) {
         let iterado = e.filter((i) => i != '' && i)
         return iterado
     })
-    uploadChemistry(newArray, executionTime, fileUpload)
+    uploadChemistry(newArray, executionTime, fileUpload, fullDate)
 }
 
 export { deleteJumps }

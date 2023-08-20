@@ -33,7 +33,9 @@ test
     if(resp != 'ETIMEOUT'){
         app.use(authRouter)
     }else{
-        Routes.failed();
+        app.use('/', (req, resp)=>{
+            resp.render('pages/404')
+        })
     }
 })
 .catch((error)=>{

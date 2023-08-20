@@ -2,9 +2,8 @@ import path from 'path'
 import fs from 'fs'
 import { Patient } from '../services/patient.lab.services.js'
 import { generateNumberRandom } from '../utils/random_notuse.js'
-import { fullDate } from '../utils/formatDate.js'
 
-export const operationDataBase = async ( lab, executionTime) =>{
+export const operationDataBase = async ( lab, executionTime, fullDate) =>{
 
     let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/${executionTime.toDateString()}.log`)
     const lenObj = lab.OBJ.length

@@ -7,8 +7,10 @@ import { deleteJumps } from '../selectors/deleteJumps.js'
 //Llamado a la funcion que realizara llamados a otras funciones para la creación del json
 import { dataJson } from '../selectors/dataJson.js'
 
+
 //Funcion que lee el archivo y crea log con la descripcción de la dia fecha y hora de la lectura del documento
-const readDate = async (type, document, fileUpload) => {
+const readDate = async (type, document, fileUpload, fullDate) => {
+
   const file = fs.readFileSync(`../../../../../../Laboratorio_Clinico/Laboratorio/file_process/${fileUpload}`, 'utf-8')
   let executionTime = await new Date()
   //Varible de lectura de fecha y hora del sistema operativo de forma asincrona
@@ -21,9 +23,9 @@ const readDate = async (type, document, fileUpload) => {
       //Separar por coma cada una de las posiciones leidas
       let dataFile = file.split(',')
       //Enviar los datos a la función que procesara los datos para convertirlos en formato Json
-      dataJson(dataFile.slice(1, 66), dataFile.slice(66, dataFile.length), executionTime, document)
+      dataJson(dataFile.slice(1, 66), dataFile.slice(66, dataFile.length), executionTime, document, fullDate)
     }else{
-      await deleteJumps(file, executionTime, document)
+      await deleteJumps(file, executionTime, document, fullDate)
     }
     // Escribe en archivo generado en la linea 14 si se pudo leer el archivo
     fs.appendFileSync(

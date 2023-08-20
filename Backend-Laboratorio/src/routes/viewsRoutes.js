@@ -3,7 +3,7 @@ import { Router } from "express";
 import { lastAnalyte } from "../utils/lastAnalyte.js";
 import protectRoute from "../middlewares/protect-routes.js";
 import { storage } from "../utils/uploadDocuments.js";
-const result = await lastAnalyte()
+//let result = await lastAnalyte()
 
 const fullname = 'Administrador'
 class Routes {
@@ -21,11 +21,19 @@ class Routes {
         });
     }
     static getHome (req, res){
-        res.render('pages/home', { people: fullname, title: 'Bienvenido', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+        let getLastAnalyte = lastAnalyte()
+        getLastAnalyte
+        .then(result=>{
+            res.render('pages/home', { people: fullname, title: 'Bienvenido', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+        })
     }
 
     static read (req, res){
-        res.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLabo:result, dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+        let getLastAnalyte = lastAnalyte()
+        getLastAnalyte
+        .then(result=>{
+            res.render('pages/interfaceRead', { people: fullname, title: 'Cargar', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+        })
     }
 
 }

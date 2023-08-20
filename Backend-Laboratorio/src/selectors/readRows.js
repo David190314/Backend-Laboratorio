@@ -1,7 +1,7 @@
 
 import { integrationObject } from './processedData.js'
 
-export const readRows = ( headerArray, data, executionTime, file) => {
+export const readRows = ( headerArray, data, executionTime, file, fullDate) => {
   
   const [,,,,,,,WBC,NEU$,LYM$,MON$,EOS$,BAS$,NEU,LYM,MON,EOS,BAS,RBC,HGB,HCT,MCV,MCH,MCHC,RDWCV,RDWSD,PLT,MOV,PDW,PCT,,,,,,,,,,,,,,,,IDPAC,,,,,,,,,,,,,,,COMENTARIOS,MENSAJEWBC,MENSAJERBC,MENSAJEPLT] = headerArray
   
@@ -24,7 +24,7 @@ export const readRows = ( headerArray, data, executionTime, file) => {
     }
     
     //Enviamos el array que contiene los array de cada una de las muestras tomadas, y las cabezeras del csv
-    integrationObject(header, arrayPatient, executionTime, file)
+    integrationObject(header, arrayPatient, executionTime, file, fullDate)
     return arrayPatient.length
   } catch (error) {
     return `this array present error ${error.message}`
