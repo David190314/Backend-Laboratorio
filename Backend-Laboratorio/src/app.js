@@ -21,8 +21,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //Parsear las respuestas enviadas desde el navegador
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(sessionConfig);
 app.use(passport.initialize());
 app.use(passport.session());

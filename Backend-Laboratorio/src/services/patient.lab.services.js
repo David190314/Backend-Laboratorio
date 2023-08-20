@@ -159,4 +159,15 @@ export class Patient {
             )
         }
     }
+
+    static async getLogRead(Tipo, fecha){
+        try {
+            let query = `SELECT TOP (1) * FROM dbo.LOGREAD WHERE DBO.LOGREAD.DOCUMENTREAD LIKE '${Tipo}' and dbo.LOGREAD.DATEUPLOAD >= '${fecha}'`
+            console.log(query)
+            let r = await sql.connectionDatabase(pool, query)
+            console.log(r)
+        } catch (error) {
+            
+        }
+    }
 }

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { lastAnalyte } from "../utils/lastAnalyte.js";
 import protectRoute from "../middlewares/protect-routes.js";
 import { storage } from "../utils/uploadDocuments.js";
-//let result = await lastAnalyte()
+import { Patient } from "../services/patient.lab.services.js";
 
 const fullname = 'Administrador'
 class Routes {
@@ -36,6 +36,23 @@ class Routes {
         })
     }
 
+    static event (req, res){
+        if(req.route.methods.post){
+            const {Tipo, fecha } = req.body
+            Patient.getLogRead(Tipo, fecha)
+            let getLastAnalyte = lastAnalyte()
+            getLastAnalyte
+            .then(result=>{
+                res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+            })
+        }else{
+            let getLastAnalyte = lastAnalyte()
+            getLastAnalyte
+            .then(result=>{
+                res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+            })
+        }
+    }
 }
 
 
@@ -44,9 +61,11 @@ authRouter.get( '/', Routes.login )
 authRouter.get( '/login', Routes.login )
 authRouter.post( '/login', loginLocalAut )
 authRouter.get( '/home',protectRoute ,Routes.getHome )
-authRouter.get( '/logout', Routes.logout )
+authRouter.get( '/logout',protectRoute, Routes.logout )
 authRouter.get( '/read',protectRoute, Routes.read )
 authRouter.post( '/read',protectRoute, storage )
+authRouter.get( '/event', protectRoute, Routes.event )
+authRouter.post( '/event', protectRoute, Routes.event)
 
 export default authRouter
 

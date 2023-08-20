@@ -1,0 +1,48 @@
+<div class="interface-container">
+    <div class="containerSidebar">
+        <div class="SidebarHome">
+            <ul>
+                <li class="buttonSidebar"> <a href="/read">CARGAR</a> </li>
+                <li class="buttonSidebar"> <a href="/event">EVENTOS</a> </li>
+                <li class="buttonSidebar"> <a href="/search">CONSULTAR</a> </li>
+            </ul>
+        </div>
+        <div class="container-publisher-document">
+            <p>Documento</p>
+            <p><%= dateLaboDocument%> </p>
+            <p>Fecha Lectura</p>
+            <p><%= dateRead%> </p>
+            <p>2023 San Juan de Dios 2023 ©</p>
+        </div>
+    </div>
+    <div id="uploadForm-container">
+        <div>
+            <form action="/event" method="post">
+                <label for="Tipo">Tipo de documento</label>
+                <select id="Tipo" name="Tipo">
+                    <option value="%.TXT">TXT</option>
+                    <option value="%.CSV">CSV</option>
+                </select>
+                <br><br>
+                <label for="fecha">Fecha de lectura</label>
+                <input type="date" id="fecha" name="fecha">
+                <br><br>
+                <input type="submit" value="Consultar">
+            </form>
+        </div>
+        <div>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <div class="buttonLogout">
+    <form action="/logout" method="GET" id="formClosedSesion">
+        <button type="submit" class="buttonLogout">Exit</button>
+    </form>
+</div>
