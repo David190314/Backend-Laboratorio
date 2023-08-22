@@ -160,14 +160,19 @@ export class Patient {
         }
     }
 
-    static async getLogRead(Tipo, fecha){
+    static async getLogRead( Tipo, greaterEqual, fecha, executionTime ){
+        let pathLog = await path.resolve(`../../../../../../Laboratorio_Clinico/Laboratorio/logs_errors/chemistry/${executionTime.toDateString()}.log`)
         try {
-            let query = `SELECT TOP (1) * FROM dbo.LOGREAD WHERE DBO.LOGREAD.DOCUMENTREAD LIKE '${Tipo}' and dbo.LOGREAD.DATEUPLOAD >= '${fecha}'`
-            console.log(query)
-            let r = await sql.connectionDatabase(pool, query)
-            console.log(r)
+            let query = `SELECT top(5) * FROM dbo.LOGREAD WHERE DBO.LOGREAD.DOCUMENTREAD LIKE '${Tipo}' and dbo.LOGREAD.DATEUPLOAD ${greaterEqual} '${fecha}'`
+            let logRead = await sql.connectionDatabase(pool, query)
+            return logRead.recordset
         } catch (error) {
-            
+            const { message, Warnnig } = error
+            fs.appendFileSync (
+                pathLog,
+                `\n Messages: ${ message }; failed conect to databases${executionTime} `,
+                'utf-8',
+            )
         }
     }
 }

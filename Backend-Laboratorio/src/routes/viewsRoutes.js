@@ -4,6 +4,7 @@ import { lastAnalyte } from "../utils/lastAnalyte.js";
 import protectRoute from "../middlewares/protect-routes.js";
 import { storage } from "../utils/uploadDocuments.js";
 import { Patient } from "../services/patient.lab.services.js";
+let executionTime = new Date()
 
 const fullname = 'Administrador'
 class Routes {
@@ -38,18 +39,24 @@ class Routes {
 
     static event (req, res){
         if(req.route.methods.post){
-            const {Tipo, fecha } = req.body
-            Patient.getLogRead(Tipo, fecha)
-            let getLastAnalyte = lastAnalyte()
-            getLastAnalyte
-            .then(result=>{
-                res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+            const { Tipo, greaterEqual, fecha } = req.body
+            let getlogread = Patient.getLogRead( Tipo, greaterEqual, fecha,executionTime )
+            getlogread
+            .then(data=>{
+                let getLastAnalyte = lastAnalyte()
+                getLastAnalyte
+                .then(result=>{
+                    res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION, dataLogRead: data } )
+                })
             })
         }else{
             let getLastAnalyte = lastAnalyte()
+            const data = [
+
+            ]
             getLastAnalyte
             .then(result=>{
-                res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION } )
+                res.render('pages/interfaceEvent', {people: fullname, title: 'Eventos', dateLaboDocument:result.Document, dateRead:result.FE_LAB_EXECUTION, dataLogRead: [] } )
             })
         }
     }

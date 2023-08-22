@@ -102,7 +102,7 @@ header a {
 }
 
 form {
-    width: 65vh;
+    width: 65vw;
     height: 75vh;
     display: flex;
     flex-direction: column;
@@ -282,3 +282,38 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #45a049;
 }
+
+/* Event */
+
+#eventForm-container{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 72vw;
+    height: 84vh;
+}
+
+#form-search--event{    
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+    justify-content: space-between;
+}
+
+#form-search--event select{
+    width: 150px;
+    height: 30px;
+    background-color:#f5f0f0;
+    font-size: 1.4rem
+}
+.datepicker-input{
+    width: 150px;
+    height: 30px;
+    background-color:#f5f0f0;
+    font-size: 1.4rem;
+}
+
+#form-search--event label{
+    font-size: 1.4rem;
+    margin-bottom: 0px !important;
+}   

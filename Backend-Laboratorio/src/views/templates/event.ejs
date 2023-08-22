@@ -15,29 +15,44 @@
             <p>2023 San Juan de Dios 2023 ©</p>
         </div>
     </div>
-    <div id="uploadForm-container">
+    <div id="eventForm-container">
         <div>
-            <form action="/event" method="post">
+            <form action="/event" method="post" id="form-search--event">
                 <label for="Tipo">Tipo de documento</label>
-                <select id="Tipo" name="Tipo">
+                <select id="Tipo" name="Tipo" >
                     <option value="%.TXT">TXT</option>
                     <option value="%.CSV">CSV</option>
                 </select>
-                <br><br>
+                <label for="greaterEqual">Rango</label>
+                <select id="greaterEqual" name="greaterEqual">
+                    <option value="=">=</option>
+                    <option value='&gt;&equals;'>&gt;&equals;</option>
+                </select>
                 <label for="fecha">Fecha de lectura</label>
-                <input type="date" id="fecha" name="fecha">
-                <br><br>
+                <input type="date" id="fecha" name="fecha" required class="datepicker-input">
                 <input type="submit" value="Consultar">
             </form>
         </div>
-        <div>
-            <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-            </ul>
+        <div class="table-container">
+            <table id="myTable" >
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>DOCUMENTO</th>
+                        <th>FECHA</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <% dataLogRead.forEach(item => { %>
+                        <tr>
+                            <td><%= item.NU_HIST_PAC%></td>
+                            <td><%= item.DOCUMENTREAD%></td>
+                            <td><%= item.DATEUPLOAD%></td>
+
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table> 
         </div>
     </div>
     </div>
